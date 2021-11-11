@@ -1,18 +1,11 @@
-import re,os 
-
+import re
+import os
 import requests 
-
 from lxml import etree 
 from os import environ
 import time 
 
 import yagmail 
-
-  
-
-  
-
-  
 
 # 设置请求头 
 
@@ -111,4 +104,4 @@ if __name__ == '__main__':
     #设定企业微信推送参数
     wxid =os.environ['wxid']
     wxsecret =os.environ['wxsecret']
-    weixin_push(message_content(content))
+    weixin_push(message_content(f'{str_time}新闻联播推送', contents=content))

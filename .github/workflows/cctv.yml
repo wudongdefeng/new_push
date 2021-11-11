@@ -28,7 +28,7 @@ jobs:
                   
           - name: run
             run: |               
-             python3 cctv.py
+              python3 cctv.py
             env:
                wxid: ${{ secrets.wxid }}
                wxsecret: ${{ secrets.wxsecret }}

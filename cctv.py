@@ -11,7 +11,7 @@ import yagmail
 
 headers = { 
 
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4651.0 Safari/537.36',
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4651.0 Safari/537.36",
 
 } 
 
@@ -33,11 +33,11 @@ def hq_news():
 
     news = [] 
 
-    url = f'https://tv.cctv.com/lm/xwlb/day/{str_time}.shtml' 
+    url = f"https://tv.cctv.com/lm/xwlb/day/{str_time}.shtml" 
 
     response = requests.get(url, headers=headers) 
 
-    response.encoding = 'RGB' 
+    response.encoding = "RGB" 
 
     resp = response.text 
 
@@ -55,7 +55,7 @@ def hq_news():
 
         news_resp = news_response.text 
 
-        news_gz = '.*(<div class="cnt_bd"><!--repaste.body.begin-->.*?</div>).*' 
+        news_gz = ".*(<div class="cnt_bd"><!--repaste.body.begin-->.*?</div>).*" 
 
         news_zw = re.findall(news_gz, news_resp) 
 
@@ -71,17 +71,17 @@ def hq_news():
 
 def main(event, context): 
 
-    username = 'xxxxxxxx@163.com' 
+    username = "xxxxxxxx@163.com" 
 
-    password = 'xxxxxxxx' 
+    password = "xxxxxxxx" 
 
-    yag = yagmail.SMTP(user=username, password=password, host='smtp.163.com', port=465) 
+    yag = yagmail.SMTP(user=username, password=password, host="smtp.163.com", port=465) 
 
     content = hq_news() 
 
-    yag.send(to=['xxxxxxxx@qq.com'], subject=f'{str_time}新闻联播推送', contents=content) 
+    yag.send(to=["xxxxxxxx@qq.com"], subject=f"{str_time}新闻联播推送", contents=content) 
 
-    return '邮件发送成功' 
+    return "邮件发送成功" 
 def weixin_push(content):
     wx_push_token = requests.post(url='https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=%s&corpsecret=%s'%(wxid,wxsecret),data="").json()['access_token']
     wx_push_data = {

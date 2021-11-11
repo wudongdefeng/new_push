@@ -96,7 +96,7 @@ def weixin_push(content):
             "msgtype":"text",
             "touser":"@all",
             "text":{
-                    "content":news
+                    "content":hq_news
             },
             "safe":0
         }
@@ -111,9 +111,4 @@ if __name__ == '__main__':
     #设定企业微信推送参数
     wxid =os.environ['wxid']
     wxsecret =os.environ['wxsecret']
-    # 设定新闻时间（当天）与类型
-    #财经：finance_0_suda 社会：news_society_suda 国内：news_china_suda 国际：news_world_suda
-    #科技：tech_news_suda 军事：news_mil_suda 娱乐：ent_suda 体育：sports_suda 总排行：www_www_all_suda_suda
-    news_type = 'news_china_suda'
-    news_time = datetime.strftime(info_time,"%Y%m%d") 
-    weixin_push(message_content(city_code,timestamps,info_time,get_news(news_type,news_time),get_sentence()))
+    weixin_push(message_content(content))

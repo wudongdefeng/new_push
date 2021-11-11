@@ -30,7 +30,7 @@ jobs:
             run: |               
              python3 sina.py
             env:
-               city_code: ${{ secret.city_code }}
-               cookie: ${{ secret.cookie }}
-               wxid: ${{ secret.wxid }}
-               wxsecret: ${{ secret.wxsecret }}
+               city_code: ${{ secrets.city_code }}
+               cookie: ${{ secrets.cookie }}
+               wxid: ${{ secrets.wxid }}
+               wxsecret: ${{ secrets.wxsecret }}

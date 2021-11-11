@@ -1,4 +1,4 @@
-import requests,json
+import requests,json,os
 from os import environ
 from datetime import datetime
 environ['NO_PROXY'] = '*' #忽略系统代理，开着代理requests会报错

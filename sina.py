@@ -105,13 +105,13 @@ def weixin_push(content):
 
 if __name__ == '__main__':
     #设定天气预报城市与查询时间
-    city_code = process.city_code #先在weather.com.cn上查询城市天气，网址结尾的数字替换即可
-    cookie = process.cookie #在查询天气的时候，按F12，在控制台复制对应的cookie并填入
+    city_code = ${city_code} #先在weather.com.cn上查询城市天气，网址结尾的数字替换即可
+    cookie = ${cookie} #在查询天气的时候，按F12，在控制台复制对应的cookie并填入
     info_time = datetime.now()
     timestamps = round(datetime.timestamp(info_time)*1000)
     #设定企业微信推送参数
-    wxid = process.wxid
-    wxsecret = process.wxsecret
+    wxid = ${wxid}
+    wxsecret = ${wxsecret}
     # 设定新闻时间（当天）与类型
     #财经：finance_0_suda 社会：news_society_suda 国内：news_china_suda 国际：news_world_suda
     #科技：tech_news_suda 军事：news_mil_suda 娱乐：ent_suda 体育：sports_suda 总排行：www_www_all_suda_suda

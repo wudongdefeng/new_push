@@ -34,3 +34,4 @@ jobs:
                cookie: ${{ secrets.cookie }}
                wxid: ${{ secrets.wxid }}
                wxsecret: ${{ secrets.wxsecret }}
+               TZ: Asia/Shanghai

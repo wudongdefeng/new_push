@@ -63,7 +63,7 @@ def get_news(news_type,news_time):
     return news_list
 
 def get_sentence():
-    sen_url = 'https://v1.hitokoto.cn?c=d&c=h&c=i&c=k'
+    sen_url = 'https://v1.hitokoto.cn?c=d&c=h&c=e&c=k'
     get_sen = requests.get(url=sen_url).json()
     sentence = get_sen['hitokoto']+"\n\n出自：%s"%get_sen['from']
     return sentence

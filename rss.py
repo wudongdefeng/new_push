@@ -7,10 +7,11 @@ def get_news():
     rss = 'https://www.52pojie.cn/forum.php?mod=rss&fid=2'
     print(f"crawl==> {rss}")
     data = feedparser.parse(rss)
+    
     for item in data['entries']:
         title = item['title']
         link = item['link']
-        content = item['published']
+        content = item['description']
         result.append({
             'title': title,
             'link': link,

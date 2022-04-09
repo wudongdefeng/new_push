@@ -1,8 +1,5 @@
 import feedparser
-import traceback
-import db
-import os
-import traceback
+
 import requests,json,os
 from os import environ
 def get_news():

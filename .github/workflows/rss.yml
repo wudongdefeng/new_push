@@ -21,8 +21,9 @@ jobs:
               python-version: 3.7
 
           - name: 'Install requirements'
-            run: pip3 install requests
-            
+            run: |
+              pip3 install requests
+              pip3 install feedparser
                   
           - name: run
             run: |               

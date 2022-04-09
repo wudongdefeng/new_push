@@ -18,10 +18,8 @@ headers = {
 # 获取日期 
 
 timeStruct = time.localtime() 
-
 strTime = time.strftime("%Y%m%d", timeStruct) 
-
-str_time = int(strTime)-1    #  如果是上午8点以后推送的，括号外的“-1”要删除 
+str_time = int(strTime)    #  如果是上午8点以后推送的，括号外的“-1”要删除 
 
   
 
@@ -82,11 +80,6 @@ def weixin_push(news):
     requests.post('https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=%s'%wx_push_token,json=wx_push_data)
 
 if __name__ == '__main__':
-    #设定天气预报城市与查询时间
-    city_code =os.environ['city_code'] #先在weather.com.cn上查询城市天气，网址结尾的数字替换即可
-    cookie =os.environ['cookie'] #在查询天气的时候，按F12，在控制台复制对应的cookie并填入
-    info_time = datetime.now()
-    timestamps = round(datetime.timestamp(info_time)*1000)
     #设定企业微信推送参数
     wxid =os.environ['wxid']
     wxsecret =os.environ['wxsecret']

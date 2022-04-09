@@ -23,9 +23,7 @@ str_time = int(strTime)-1
 #  如果是上午8点以后推送的，括号外的“-1”要删除 
 # 获取新闻 
 
-def hq_news(): 
-
-  
+def hq_news():   
 
     news = [] 
 

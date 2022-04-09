@@ -67,29 +67,15 @@ def hq_news():
 
   
 
-# 邮箱推送 
 
-def main(event, context): 
-
-    username = "xxxxxxxx@163.com" 
-
-    password = "xxxxxxxx" 
-
-    yag = yagmail.SMTP(user=username, password=password, host="smtp.163.com", port=465) 
-
-    content = hq_news() 
-
-    yag.send(to=["xxxxxxxx@qq.com"], subject=f"{str_time}新闻联播推送", contents=content) 
-
-    return "邮件发送成功" 
-def weixin_push(content):
+def weixin_push(news):
     wx_push_token = requests.post(url='https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=%s&corpsecret=%s'%(wxid,wxsecret),data="").json()['access_token']
     wx_push_data = {
             "agentid":1000002,
             "msgtype":"text",
             "touser":"@all",
             "text":{
-                    "content":hq_news
+                    "content":news
             },
             "safe":0
         }

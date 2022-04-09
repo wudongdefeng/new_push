@@ -19,7 +19,8 @@ headers = {
 
 timeStruct = time.localtime() 
 strTime = time.strftime("%Y%m%d", timeStruct) 
-str_time = int(strTime)    #  如果是上午8点以后推送的，括号外的“-1”要删除 
+str_time = int(strTime)-1
+#  如果是上午8点以后推送的，括号外的“-1”要删除 
 
   
 

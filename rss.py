@@ -35,4 +35,4 @@ def get_news():
     if __name__ == '__main__':      
     wxid =os.environ['wxid']
     wxsecret =os.environ['wxsecret']    
-    weixin_push(get_news())
+    weixin_push(message_content(get_news()))

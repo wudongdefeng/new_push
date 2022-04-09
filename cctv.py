@@ -104,4 +104,4 @@ if __name__ == '__main__':
     #设定企业微信推送参数
     wxid =os.environ['wxid']
     wxsecret =os.environ['wxsecret']
-    weixin_push(hq_news))
+    weixin_push(hq_news())

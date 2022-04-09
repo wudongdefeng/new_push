@@ -27,7 +27,7 @@ def get_news():
             "msgtype":"text",
             "touser":"@all",
             "text":{
-                    "content":content
+                    "content":result
             },
             "safe":0
         }

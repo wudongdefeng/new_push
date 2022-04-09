@@ -20,7 +20,7 @@ def get_news():
             'content': f'{content}\nfrom rss news'
         })
     return result
- def weixin_push(content):
+ def weixin_push(result):
     wx_push_token = requests.post(url='https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=%s&corpsecret=%s'%(wxid,wxsecret),data="").json()['access_token']
     wx_push_data = {
             "agentid":1000008,

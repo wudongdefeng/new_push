@@ -4,7 +4,7 @@ import requests,json,os
 from os import environ
 def get_news():
     result = []
-    rss = 'https://news.ycombinator.com/rss'
+    rss = 'https://www.52pojie.cn/forum.php?mod=rss&fid=2'
     print(f"crawl==> {rss}")
     data = feedparser.parse(rss)
     for item in data['entries']:

@@ -33,7 +33,7 @@ def weixin_push(result):
         }
     requests.post('https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=%s'%wx_push_token,json=wx_push_data)
     
-   if __name__ == '__main__':      
+if __name__ == '__main__':      
     wxid = os.environ['wxid']
     wxsecret = os.environ['wxsecret']    
     weixin_push(get_news())

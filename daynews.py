@@ -19,13 +19,14 @@ import time
 import requests
 import json
 import re
+import os
 
 todayStr = str(time.localtime().tm_mon) + "月" + str(time.localtime().tm_mday) + "日"
 
 url = "https://www.jinrongbaguanv.com/jinba/index_articles/1"
 print("开始分析今天是否有早报")
 
-WXurl = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX0078'
+WXurl = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=' + os.environ['webhook']
 headers = {'content-type': "application/json"}
 
 r=requests.get(url)

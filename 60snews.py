@@ -3,11 +3,11 @@ import requests
 import json
 
 text_url = "https://60s.viki.moe/60s?e=text"
-
+QYWX_KEY =  os.environ['webhook']
 text_response = requests.get(text_url)
 content = text_response.text
 
-webhook = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=" + os.environ['webhook']
+webhook = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=" + QYWX_KEY
 headers = {"Content-Type": "text/plain"}
 data = {
     "msgtype": "text",

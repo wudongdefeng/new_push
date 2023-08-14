@@ -6,7 +6,7 @@ text_url = "https://60s.viki.moe/60s?e=text"
 
 text_response = requests.get(text_url)
 content = text_response.text
-QYWX_KEY = get_environ("webhook")
+QYWX_KEY = os.get_environ("webhook")
 webhook = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=" + QYWX_KEY
 headers = {"Content-Type": "text/plain"}
 data = {

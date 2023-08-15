@@ -27,7 +27,7 @@ jobs:
                   
           - name: run
             run: |               
-              python3 60snews.py
+              python3 wechat.py
             env:
                webhook: ${{ secrets.webhook }}
              

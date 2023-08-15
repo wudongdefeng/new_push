@@ -3,7 +3,7 @@ name: dailynews
 on:
     workflow_dispatch:
     schedule:
-        - cron: "15 11,23 * * *"
+        - cron: "15 23 * * *"
     watch:
         types: [started]
     repository_dispatch:

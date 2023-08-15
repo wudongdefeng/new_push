@@ -1,4 +1,6 @@
+import os
 import requests
+import json
 
 QYWX_KEY =  os.environ['webhook']
 #传入文件

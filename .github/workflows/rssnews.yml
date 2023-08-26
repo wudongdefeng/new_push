@@ -1,0 +1,33 @@
+name: dailynews
+
+on:
+    workflow_dispatch:
+    schedule:
+        - cron: "15 4,9,12,23 * * *"
+    watch:
+        types: [started]
+    repository_dispatch:
+        types: rssnews
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v2
+
+          - name: 'Set up Python'
+            uses: actions/setup-python@v1
+            with:
+              python-version: 3.7
+
+          - name: 'Install requirements'
+            run: |
+              pip3 install requests
+              pip3 install bs4
+                  
+          - name: run
+            run: |               
+              python3 rss.io.py
+            env:
+               webhook: ${{ secrets.webhook }}

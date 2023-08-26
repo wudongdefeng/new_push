@@ -27,7 +27,7 @@ jobs:
                   
           - name: run
             run: |               
-              python3 TouTiao.py.py
+              python3 TouTiao.py
             env:
                QYWX_KEY: ${{ secrets.webhook }}
              

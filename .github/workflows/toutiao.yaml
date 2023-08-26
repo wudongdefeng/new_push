@@ -1,0 +1,33 @@
+name: toutiao
+
+on:
+    workflow_dispatch:
+    schedule:
+        - cron: "15 1 * * *"
+    watch:
+        types: [started]
+    repository_dispatch:
+        types: dailynews
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v2
+
+          - name: 'Set up Python'
+            uses: actions/setup-python@v1
+            with:
+              python-version: 3.7
+
+          - name: 'Install requirements'
+            run: pip3 install requests
+            
+                  
+          - name: run
+            run: |               
+              python3 TouTiao.py.py
+            env:
+               QYWX_KEY: ${{ secrets.webhook }}
+             

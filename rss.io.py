@@ -1,6 +1,6 @@
 import requests
 import bs4
-
+import os
 QYWX_KEY =  os.environ['webhook']
 # 自定义一个请求函数，参数是网址\请求头\请求参数，没有参数就空着，请求成功后返回页面的新闻列表
 def catchnewslist(newsurl, headers, params):

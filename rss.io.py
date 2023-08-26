@@ -41,7 +41,7 @@ def postmsg(url, post_data):
 # 主函数
 if __name__ == '__main__':
     newsurl = "http://rss.io.dc-wind.eu.org"
-    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.92 Safari/537.36"}
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0"}
     # params = {"datatype":"jsonp", "page":"1", "callback":"flightHandler"}  参数视需求添加
     newslist = catchnewslist(newsurl, headers, '')
     # print(newslist)

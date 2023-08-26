@@ -14,8 +14,8 @@ def catchnewslist(newsurl, headers, params):
         content = bs4.BeautifulSoup(response.text, 'html.parser')
         elements = content.select("body ol a")               # 这一句就是提取请求到的页面内容中要提取的新闻，根据不同的页面结构进行修改
         for i in range(8):                                 # 把取到的新闻列表数据存到一个python列表中，方便后面使用
-            urllist.append("http://rss.io.dc-wind.eu.org/" + element[i].get('href'))
-            titlelist.append(element[i].string)
+            urllist.append("http://rss.io.dc-wind.eu.org/" + elements[i].get('href'))
+            titlelist.append(elements[i].string)
         resultlist = [[a, b] for a, b in zip(urllist, titlelist)]   # 把标题和地址组合成一个嵌套列表，并返回
     else:
         print(response.status_code)

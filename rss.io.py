@@ -49,7 +49,7 @@ if __name__ == '__main__':
     newslistdata = u"### 最新新闻： \n"
     for i in newslist:
         # print("[%s](%s)" % (i[1], i[0]))
-        newslistdata = newslistdata + "%s [%s](%s)" % (newslist.index(i) + 1, i[1], i[0]) + "\n"
+        newslistdata = "\n" + newslistdata + "%s [%s](%s)" % (newslist.index(i) + 1, i[1], i[0]) + "\n"
     print(newslistdata)
     url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=" + QYWX_KEY  # 要post的群机器人的webhook地址
     # post_data = '[这是一个链接](http://work.weixin.qq.com/api/doc)' # 带链接的md字符串格式

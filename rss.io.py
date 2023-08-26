@@ -44,7 +44,7 @@ if __name__ == '__main__':
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0"}
     # params = {"datatype":"jsonp", "page":"1", "callback":"flightHandler"}  参数视需求添加
     newslist = catchnewslist(newsurl, headers, '')
-    # print(newslist)
+    print(newslist)
     # 把请求回来的数据，按照要post到接口的md的格式再处理一下
     newslistdata = u"### 最新新闻： \n"
     for i in newslist:

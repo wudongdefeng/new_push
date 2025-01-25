@@ -4,7 +4,7 @@ import os
 
 # List of RSS feed URLs
 rss_urls = [
-    "https://fuliba2020.net/feed",
+    "https://fuliba2025.net/feed",
     "https://www.yddx.net/feed",
     "https://hao.su/feed",
     "https://rsshub.app/zhihuzhuanlan/c_1085975047386050560",
@@ -23,6 +23,8 @@ def fetch_rss_updates():
         feed = feedparser.parse(url)
         for entry in feed.entries[:5]:  # Limit to the first 5 entries per feed
             updates.append(f"Title: {entry.title}\nLink: {entry.link}\n")
+        except Exception as e:
+            print(f"Error fetching updates from {url}: {e}")
     return updates
 
 # Send updates to WeCom

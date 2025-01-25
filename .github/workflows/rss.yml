@@ -1,34 +1,33 @@
-name: rss_news
+name: RSS to WeCom
 
 on:
-    workflow_dispatch:
-    schedule:
-        - cron: "15 23 * * *"    
-    repository_dispatch:
-        types: rss_news
+  schedule:
+    # Run every hour
+    - cron: '0 * * * *'
+  workflow_dispatch:
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        if: github.event.repository.owner.id == github.event.sender.id
-        steps:
-          - name: Checkout
-            uses: actions/checkout@v2
+  fetch-and-send:
+    runs-on: ubuntu-latest
 
-          - name: 'Set up Python'
-            uses: actions/setup-python@v1
-            with:
-              python-version: 3.7
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-          - name: 'Install requirements'
-            run: |
-              pip3 install requests
-              pip3 install feedparser
-                  
-          - name: run
-            run: |               
-             python3 rss.py
-            env:              
-               wxid: ${{ secrets.wxid }}
-               wxsecret: ${{ secrets.wxsecret }}
-               TZ: Asia/Shanghai
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install feedparser requests
+
+    - name: Fetch RSS and send to WeCom
+      env:
+        WECOM_CORP_ID: ${{ secrets.WECOM_CORP_ID }}
+        WECOM_AGENT_ID: ${{ secrets.WECOM_AGENT_ID }}
+        WECOM_AGENT_SECRET: ${{ secrets.WECOM_AGENT_SECRET }}
+      run: |
+        python rsspush.py
+    

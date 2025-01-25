@@ -4,10 +4,10 @@ import os
 
 # List of RSS feed URLs
 rss_urls = [
-    "https://fuliba2025.net/feed",
-    "https://www.yddx.net/feed",
-    "https://hao.su/feed",
-    "https://rsshub.app/zhihuzhuanlan/c_1085975047386050560",
+    "https://feeds.bbci.co.uk/zhongwen/simp/rss.xml",
+    "https://cn.nytimes.com/rss/world.xml",
+    "https://cn.reuters.com/rssFeed/worldNews",
+    "https://news.ifeng.com/rss/index.xml",
     "https://rsshub.app/zaker/source/660",
     "https://rsshub.app/zhihu/daily",
     "https://www.zhihu.com/rss",

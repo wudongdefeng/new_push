@@ -38,7 +38,7 @@ def send_to_wecom(updates):
 
     # Prepare message
     message = {
-        "touser": "@all",
+        "touser": "PanDeng",
         "msgtype": "text",
         "agentid": agent_id,
         "text": {

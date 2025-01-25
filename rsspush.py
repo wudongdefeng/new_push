@@ -43,7 +43,7 @@ def send_to_feishu(updates):
     if response.status_code == 200:
         print('消息发送成功')
     else:
-        print('消息发送失败', response.text
+        print('消息发送失败', response.text)
 
 # Send updates to WeCom
 def send_to_wecom(updates):

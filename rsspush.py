@@ -20,9 +20,10 @@ rss_urls = [
 def fetch_rss_updates():
     updates = []
     for url in rss_urls:
-        feed = feedparser.parse(url)
-        for entry in feed.entries[:5]:  # Limit to the first 5 entries per feed
-            updates.append(f"Title: {entry.title}\nLink: {entry.link}\n")
+        try:
+            feed = feedparser.parse(url)
+            for entry in feed.entries[:5]:  # Limit to the first 5 entries per feed
+                updates.append(f"Title: {entry.title}\nLink: {entry.link}\n")
         except Exception as e:
             print(f"Error fetching updates from {url}: {e}")
     return updates

@@ -28,6 +28,23 @@ def fetch_rss_updates():
             print(f"Error fetching updates from {url}: {e}")
     return updates
 
+def send_to_feishu(updates):
+    webhook_url = os.getenv("FSWEBHOOK")
+    headers = {
+        'Content-Type': 'application/json'
+    }
+    data = {
+        'msg_type': 'text',
+        'content': {
+            'text': f'\n\n'.join(updates)
+        }
+    }
+    response = requests.post(webhook_url, json=data, headers=headers)
+    if response.status_code == 200:
+        print('消息发送成功')
+    else:
+        print('消息发送失败', response.text
+
 # Send updates to WeCom
 def send_to_wecom(updates):
     corp_id = os.getenv("WECOM_CORP_ID")
@@ -58,6 +75,8 @@ if __name__ == "__main__":
     updates = fetch_rss_updates()
     if updates:
         response = send_to_wecom(updates)
+        response1 = send_to_feishu(updates)
         print(response)
+        print(response1)
     else:
         print("No updates found.")  

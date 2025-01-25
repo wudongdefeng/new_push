@@ -75,8 +75,8 @@ if __name__ == "__main__":
     updates = fetch_rss_updates()
     if updates:
         response = send_to_wecom(updates)
-        #response1 = send_to_feishu(updates)
+        response1 = send_to_feishu(updates)
         print(response)
-        #print(response1)
+        print(response1)
     else:
         print("No updates found.")  

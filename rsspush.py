@@ -23,10 +23,25 @@ def fetch_rss_updates():
         try:
             feed = feedparser.parse(url)
             for entry in feed.entries[:5]:  # Limit to the first 5 entries per feed
-                updates.append(f"Title: {entry.title}\nLink: {entry.link}\n")
+                updates.append(f"<h2>Title: {entry.title}</h2>\n<p>Link: <a href='{entry.link}'>{entry.link}</a></p>\n")
         except Exception as e:
             print(f"Error fetching updates from {url}: {e}")
     return updates
+
+def save_updates_to_file(updates, file_path):
+    with open(file_path, 'w', encoding='utf-8') as file:
+        file.write('<html><body>\n')
+        file.write('\n'.join(updates))
+        file.write('\n</body></html>')
+
+def load_updates_from_file(file_path):
+    if not os.path.exists(file_path):
+        return []
+    with open(file_path, 'r', encoding='utf-8') as file:
+        return file.read().split('\n')
+
+def check_for_updates(new_updates, saved_updates):
+    return new_updates != saved_updates
 
 def send_to_feishu(updates):
     webhook_url = os.getenv("FSWEBHOOK")
@@ -36,7 +51,7 @@ def send_to_feishu(updates):
     data = {
         'msg_type': 'text',
         'content': {
-            'text': f'\n\n'.join(updates)
+            'text': '\n\n'.join(updates)
         }
     }
     response = requests.post(webhook_url, json=data, headers=headers)
@@ -45,7 +60,6 @@ def send_to_feishu(updates):
     else:
         print('消息发送失败', response.text)
 
-# Send updates to WeCom
 def send_to_wecom(updates):
     corp_id = os.getenv("WECOM_CORP_ID")
     agent_id = os.getenv("WECOM_AGENT_ID")
@@ -71,21 +85,6 @@ def send_to_wecom(updates):
     send_url = f"https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token={access_token}"
     send_res = requests.post(send_url, json=message)
     return send_res.json()
-
-def save_updates_to_file(updates, file_path):
-    with open(file_path, 'w', encoding='utf-8') as file:
-        file.write('<html><body>\n')
-        file.write('\n'.join(updates))
-        file.write('\n</body></html>')
-
-def load_updates_from_file(file_path):
-    if not os.path.exists(file_path):
-        return []
-    with open(file_path, 'r', encoding='utf-8') as file:
-        return file.read().split('\n')
-
-def check_for_updates(new_updates, saved_updates):
-    return new_updates != saved_updates
 
 if __name__ == "__main__":
     updates = fetch_rss_updates()

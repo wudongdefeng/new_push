@@ -4,11 +4,8 @@ import os
 
 # List of RSS feed URLs
 rss_urls = [
-    "https://feeds.bbci.co.uk/zhongwen/simp/rss.xml",
-    "https://cn.nytimes.com/rss/world.xml",
-    "https://cn.reuters.com/rssFeed/worldNews",
-    "https://news.ifeng.com/rss/index.xml",
-    "https://rsshub.app/zaker/source/660",
+    "http://news.baidu.com/n?cmd=4&class=internews&tn=rss",
+    "https://cn.yna.co.kr/RSS/news.xml",
     "https://rsshub.app/zhihu/daily",
     "https://www.zhihu.com/rss",
     "https://rsshub.app/netease/news/special/1",
@@ -31,7 +28,7 @@ def fetch_rss_updates():
                 })
         except Exception as e:
             print(f"Error fetching updates from {url}: {e}")
-    return updates[:8]
+    return updates
 
 def save_updates_to_file(updates, file_path):
     with open(file_path, 'w', encoding='utf-8') as file:
@@ -60,28 +57,35 @@ def send_to_wecom(updates):
     token_res = requests.get(token_url).json()
     access_token = token_res['access_token']
 
-    # Prepare message
-    articles = [{
-        "title": update["title"],
-        "description": update["description"],
-        "url": update["url"],
-        "picurl": update["picurl"]
-    } for update in updates]
+    # Determine the number of batches
+    batch_size = 8
+    total_batches = (len(updates) + batch_size - 1) // batch_size
 
-    message = {
-        "touser": "PanDeng",
-        "msgtype": "news",
-        "agentid": agent_id,
-        "news": {
-            "articles": articles
-        },
-        "safe": 0
-    }
+    for batch_num in range(total_batches):
+        start_index = batch_num * batch_size
+        end_index = start_index + batch_size
+        batch_updates = updates[start_index:end_index]
+        # Prepare message
+        articles = [{
+            "title": update["title"],
+            "description": update["description"],
+            "url": update["url"],
+            "picurl": update["picurl"]
+        } for update in batch_updates]
 
-    # Send message to WeCom
-    send_url = f"https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token={access_token}"
-    send_res = requests.post(send_url, json=message)
-    return send_res.json()
+        message = {
+            "touser": "@all",
+            "msgtype": "news",
+            "agentid": agent_id,
+            "news": {
+                "articles": articles
+            },
+            "safe": 0
+        }
+        # Send message to WeCom
+        send_url = f"https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token={access_token}"
+        send_res = requests.post(send_url, json=message)
+        print(send_res.json())
 
 if __name__ == "__main__":
     updates = fetch_rss_updates()
@@ -90,8 +94,7 @@ if __name__ == "__main__":
         saved_updates = load_updates_from_file(file_path)
         if check_for_updates(updates, saved_updates):
             save_updates_to_file(updates, file_path)
-            response = send_to_wecom(updates)
-            print(response)
+            send_to_wecom(updates)
         else:
             print("No new updates found.")
     else:

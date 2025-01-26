@@ -31,7 +31,7 @@ def fetch_rss_updates():
                 })
         except Exception as e:
             print(f"Error fetching updates from {url}: {e}")
-    return updates
+    return updates[:8]
 
 def save_updates_to_file(updates, file_path):
     with open(file_path, 'w', encoding='utf-8') as file:

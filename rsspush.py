@@ -46,11 +46,19 @@ def save_updates_to_file(updates, file_path):
 def load_updates_from_file(file_path):
     if not os.path.exists(file_path):
         return []
+    updates = []
     with open(file_path, 'r', encoding='utf-8') as file:
-        return file.read().split('\n')
+        content = file.read()
+        items = content.split('<h2>Title: ')[1:]  # Split and skip the first empty element
+        for item in items:
+            title = item.split('</h2>')[0]
+            url = item.split("href='")[1].split("'")[0]
+            updates.append({"title": title, "url": url})
+    return updates
 
 def check_for_updates(new_updates, saved_updates):
-    new_unique_updates = [update for update in new_updates if update not in saved_updates]
+    saved_titles = {update["title"] for update in saved_updates}
+    new_unique_updates = [update for update in new_updates if update["title"] not in saved_titles]
     return new_unique_updates
 
 def send_to_wecom(updates):
@@ -81,7 +89,7 @@ def send_to_wecom(updates):
         } for update in batch_updates]
 
         message = {
-            "touser": "PanDeng",
+            "touser": "@all",
             "msgtype": "news",
             "agentid": agent_id,
             "news": {
@@ -100,9 +108,10 @@ if __name__ == "__main__":
     if updates:
         file_path = 'docs/index.html'
         saved_updates = load_updates_from_file(file_path)
-        if check_for_updates(updates, saved_updates):
+        new_updates = check_for_updates(updates, saved_updates)
+        if new_updates:
             save_updates_to_file(updates, file_path)
-            send_to_wecom(updates)
+            send_to_wecom(new_updates)
         else:
             print("No new updates found.")
     else:

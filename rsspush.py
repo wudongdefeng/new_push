@@ -74,13 +74,15 @@ def send_to_wecom(updates):
 
 def save_updates_to_file(updates, file_path):
     with open(file_path, 'w', encoding='utf-8') as file:
-        file.write('\n\n'.join(updates))
+        file.write('<html><body>\n')
+        file.write('\n'.join(updates))
+        file.write('\n</body></html>')
 
 def load_updates_from_file(file_path):
     if not os.path.exists(file_path):
         return []
     with open(file_path, 'r', encoding='utf-8') as file:
-        return file.read().split('\n\n')
+        return file.read().split('\n')
 
 def check_for_updates(new_updates, saved_updates):
     return new_updates != saved_updates
@@ -93,9 +95,7 @@ if __name__ == "__main__":
         if check_for_updates(updates, saved_updates):
             save_updates_to_file(updates, file_path)
             response = send_to_wecom(updates)
-            #response1 = send_to_feishu(updates)
             print(response)
-            #print(response1)
         else:
             print("No new updates found.")
     else:

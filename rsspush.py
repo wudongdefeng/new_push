@@ -50,7 +50,8 @@ def load_updates_from_file(file_path):
         return file.read().split('\n')
 
 def check_for_updates(new_updates, saved_updates):
-    return new_updates != saved_updates
+    new_unique_updates = [update for update in new_updates if update not in saved_updates]
+    return new_unique_updates
 
 def send_to_wecom(updates):
     corp_id = os.getenv("WECOM_CORP_ID")

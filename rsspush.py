@@ -20,11 +20,16 @@ def fetch_rss_updates():
         try:
             feed = feedparser.parse(url)
             for entry in feed.entries[:5]:  # Limit to the first 5 entries per feed
+                pic_url = ""
+                if 'media_content' in entry:
+                    pic_url = entry.media_content[0]['url']
+                elif 'media_thumbnail' in entry:
+                    pic_url = entry.media_thumbnail[0]['url']
                 updates.append({
                     "title": entry.title,
                     "description": entry.summary if 'summary' in entry else "",
                     "url": entry.link,
-                    "picurl": entry.media_content[0]['url'] if 'media_content' in entry else ""
+                    "picurl": pic_url
                 })
         except Exception as e:
             print(f"Error fetching updates from {url}: {e}")
@@ -65,6 +70,7 @@ def send_to_wecom(updates):
         start_index = batch_num * batch_size
         end_index = start_index + batch_size
         batch_updates = updates[start_index:end_index]
+
         # Prepare message
         articles = [{
             "title": update["title"],
@@ -74,7 +80,7 @@ def send_to_wecom(updates):
         } for update in batch_updates]
 
         message = {
-            "touser": "@all",
+            "touser": "PanDeng",
             "msgtype": "news",
             "agentid": agent_id,
             "news": {
@@ -82,6 +88,7 @@ def send_to_wecom(updates):
             },
             "safe": 0
         }
+
         # Send message to WeCom
         send_url = f"https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token={access_token}"
         send_res = requests.post(send_url, json=message)

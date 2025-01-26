@@ -23,7 +23,12 @@ def fetch_rss_updates():
         try:
             feed = feedparser.parse(url)
             for entry in feed.entries[:5]:  # Limit to the first 5 entries per feed
-                updates.append(f"<h2>Title: {entry.title}</h2>\n<p>Link: <a href='{entry.link}'>{entry.link}</a></p>\n")
+                updates.append({
+                    "title": entry.title,
+                    "description": entry.summary if 'summary' in entry else "",
+                    "url": entry.link,
+                    "picurl": entry.media_content[0]['url'] if 'media_content' in entry else ""
+                })
         except Exception as e:
             print(f"Error fetching updates from {url}: {e}")
     return updates
@@ -31,7 +36,9 @@ def fetch_rss_updates():
 def save_updates_to_file(updates, file_path):
     with open(file_path, 'w', encoding='utf-8') as file:
         file.write('<html><body>\n')
-        file.write('\n'.join(updates))
+        for update in updates:
+            file.write(f"<h2>Title: {update['title']}</h2>\n")
+            file.write(f"<p>Link: <a href='{update['url']}'>{update['url']}</a></p>\n")
         file.write('\n</body></html>')
 
 def load_updates_from_file(file_path):
@@ -42,23 +49,6 @@ def load_updates_from_file(file_path):
 
 def check_for_updates(new_updates, saved_updates):
     return new_updates != saved_updates
-
-def send_to_feishu(updates):
-    webhook_url = os.getenv("FSWEBHOOK")
-    headers = {
-        'Content-Type': 'application/json'
-    }
-    data = {
-        'msg_type': 'text',
-        'content': {
-            'text': '\n\n'.join(updates)
-        }
-    }
-    response = requests.post(webhook_url, json=data, headers=headers)
-    if response.status_code == 200:
-        print('消息发送成功')
-    else:
-        print('消息发送失败', response.text)
 
 def send_to_wecom(updates):
     corp_id = os.getenv("WECOM_CORP_ID")
@@ -71,12 +61,19 @@ def send_to_wecom(updates):
     access_token = token_res['access_token']
 
     # Prepare message
+    articles = [{
+        "title": update["title"],
+        "description": update["description"],
+        "url": update["url"],
+        "picurl": update["picurl"]
+    } for update in updates]
+
     message = {
         "touser": "PanDeng",
-        "msgtype": "text",
+        "msgtype": "news",
         "agentid": agent_id,
-        "text": {
-            "content": "\n\n".join(updates)
+        "news": {
+            "articles": articles
         },
         "safe": 0
     }

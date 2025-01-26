@@ -71,12 +71,32 @@ def send_to_wecom(updates):
     send_url = f"https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token={access_token}"
     send_res = requests.post(send_url, json=message)
     return send_res.json()
+
+def save_updates_to_file(updates, file_path):
+    with open(file_path, 'w', encoding='utf-8') as file:
+        file.write('\n\n'.join(updates))
+
+def load_updates_from_file(file_path):
+    if not os.path.exists(file_path):
+        return []
+    with open(file_path, 'r', encoding='utf-8') as file:
+        return file.read().split('\n\n')
+
+def check_for_updates(new_updates, saved_updates):
+    return new_updates != saved_updates
+
 if __name__ == "__main__":
     updates = fetch_rss_updates()
     if updates:
-        response = send_to_wecom(updates)
-        #response1 = send_to_feishu(updates)
-        print(response)
-        #print(response1)
+        file_path = 'docs/index.html'
+        saved_updates = load_updates_from_file(file_path)
+        if check_for_updates(updates, saved_updates):
+            save_updates_to_file(updates, file_path)
+            response = send_to_wecom(updates)
+            #response1 = send_to_feishu(updates)
+            print(response)
+            #print(response1)
+        else:
+            print("No new updates found.")
     else:
-        print("No updates found.")  
+        print("No updates found.")

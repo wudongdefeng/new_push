@@ -4,7 +4,6 @@ import os
 
 # List of RSS feed URLs
 rss_urls = [
-    "http://news.baidu.com/n?cmd=4&class=internews&tn=rss",
     "https://cn.yna.co.kr/RSS/news.xml",
     "https://rsshub.app/zhihu/daily",
     "https://www.zhihu.com/rss",

@@ -21,10 +21,15 @@ def fetch_rss_updates():
             feed = feedparser.parse(url)
             for entry in feed.entries[:5]:  # Limit to the first 5 entries per feed
                 pic_url = ""
-                if 'media_content' in entry:
+                if 'media_content' in entry and len(entry.media_content) > 0:
                     pic_url = entry.media_content[0]['url']
-                elif 'media_thumbnail' in entry:
+                elif 'media_thumbnail' in entry and len(entry.media_thumbnail) > 0:
                     pic_url = entry.media_thumbnail[0]['url']
+                elif 'links' in entry:
+                    for link in entry.links:
+                        if 'image' in link.type:
+                            pic_url = link.href
+                            break
                 updates.append({
                     "title": entry.title,
                     "description": entry.summary if 'summary' in entry else "",

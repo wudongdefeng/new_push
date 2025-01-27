@@ -10,7 +10,7 @@ rss_urls = [
     "https://www.zhihu.com/rss",
     "https://news.un.org/feed/subscribe/zh/news/all/rss.xml",
     "https://sputniknews.cn/export/rss2/archive/index.xml",
-    "https://rss.shab.fun/zaobao/realtime/china"
+    "https://plink.anyfeeder.com/zaobao/realtime/world"
 ]
 
 # Fetch and format RSS feed updates

@@ -8,8 +8,8 @@ rss_urls = [
     "https://cn.yna.co.kr/RSS/news.xml",
     "https://rsshub.app/zhihu/daily",
     "https://www.zhihu.com/rss",
-    "https://rss.shab.fun/netease/news/special/1",
-    "https://rss.shab.fun/banyuetan/jicengzhili",
+    "https://news.un.org/feed/subscribe/zh/news/all/rss.xml",
+    "https://sputniknews.cn/export/rss2/archive/index.xml",
     "https://rss.shab.fun/zaobao/realtime/china"
 ]
 

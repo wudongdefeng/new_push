@@ -8,9 +8,9 @@ rss_urls = [
     "https://cn.yna.co.kr/RSS/news.xml",
     "https://rsshub.app/zhihu/daily",
     "https://www.zhihu.com/rss",
-    "https://rsshub.app/netease/news/special/1",
-    "https://rsshub.app/banyuetan/jicengzhili",
-    "https://rsshub.app/zaobao/realtime/china"
+    "https://rss.shab.fun/netease/news/special/1",
+    "https://rss.shab.fun/banyuetan/jicengzhili",
+    "https://rss.shab.fun/zaobao/realtime/china"
 ]
 
 # Fetch and format RSS feed updates

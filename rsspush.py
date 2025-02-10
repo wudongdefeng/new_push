@@ -19,16 +19,19 @@ def fetch_rss_updates():
         try:
             feed = feedparser.parse(url)
             for entry in feed.entries[:5]:  # Limit to the first 5 entries per feed
-                pic_url = ""
+                pic_url = "https://r.yna.co.kr/global/home/v01/img/yonhapnews_logo_600x600_ck01.jpg"  # 这里可以替换为你的默认图片 URL
+                # 尝试从 media_content 或 media_thumbnail 提取图片
                 if 'media_content' in entry and len(entry.media_content) > 0:
                     pic_url = entry.media_content[0]['url']
                 elif 'media_thumbnail' in entry and len(entry.media_thumbnail) > 0:
                     pic_url = entry.media_thumbnail[0]['url']
-                elif 'links' in entry:
-                    for link in entry.links:
-                        if 'image' in link.type:
-                            pic_url = link.href
-                            break
+                # 如果 summary 中包含 <meta name="image" content="..." />
+                elif 'summary' in entry:
+                    # 使用正则表达式提取图片链接
+                    match = re.search(r'<meta name="image" content="([^"]+)"', entry.summary)
+                    if match:
+                        pic_url = match.group(1)
+
                 updates.append({
                     "title": entry.title,
                     "description": entry.summary if 'summary' in entry else "",

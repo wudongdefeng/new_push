@@ -11,7 +11,7 @@ rss_urls = [
     "https://sputniknews.cn/export/rss2/archive/index.xml"
 ]
 
-def fetch_rss_updates(rss_urls):
+def fetch_rss_updates():
     updates = []
     for url in rss_urls:
         try:

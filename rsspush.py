@@ -78,7 +78,7 @@ def send_to_wecom(updates):
     access_token = token_res['access_token']
 
     # Determine the number of batches
-    batch_size = 9
+    batch_size = 8
     total_batches = (len(updates) + batch_size - 1) // batch_size
 
     for batch_num in range(total_batches):

@@ -4,10 +4,10 @@ import os
 
 # List of RSS feed URLs
 rss_urls = [
-    "https://sputniknews.cn/export/rss2/archive/index.xml",
     "https://news.un.org/feed/subscribe/zh/news/all/rss.xml",
+    "https://news.un.org/feed/subscribe/zh/audio-product/all/audio-rss.xml",
     "https://plink.anyfeeder.com/infzm/news",
-    "https://news.un.org/feed/subscribe/zh/audio-product/all/audio-rss.xml"
+    "https://sputniknews.cn/export/rss2/archive/index.xml"
 ]
 
 # Fetch and format RSS feed updates

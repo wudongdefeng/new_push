@@ -4,12 +4,10 @@ import os
 
 # List of RSS feed URLs
 rss_urls = [
-    "https://cn.yna.co.kr/RSS/news.xml",
-    "https://rsshub.app/zhihu/daily",
-    "https://www.zhihu.com/rss",
-    "https://news.un.org/feed/subscribe/zh/news/all/rss.xml",
     "https://sputniknews.cn/export/rss2/archive/index.xml",
-    "https://plink.anyfeeder.com/zaobao/realtime/world"
+    "https://news.un.org/feed/subscribe/zh/news/all/rss.xml",
+    "https://plink.anyfeeder.com/infzm/news",
+    "https://news.un.org/feed/subscribe/zh/audio-product/all/audio-rss.xml"
 ]
 
 # Fetch and format RSS feed updates
@@ -79,7 +77,7 @@ def send_to_wecom(updates):
     access_token = token_res['access_token']
 
     # Determine the number of batches
-    batch_size = 8
+    batch_size = 9
     total_batches = (len(updates) + batch_size - 1) // batch_size
 
     for batch_num in range(total_batches):

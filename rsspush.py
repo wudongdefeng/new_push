@@ -1,6 +1,7 @@
 import feedparser
 import requests
 import os
+import re
 
 # List of RSS feed URLs
 rss_urls = [
@@ -10,22 +11,22 @@ rss_urls = [
     "https://sputniknews.cn/export/rss2/archive/index.xml"
 ]
 
-# Fetch and format RSS feed updates
-def fetch_rss_updates():
+def fetch_rss_updates(rss_urls):
     updates = []
     for url in rss_urls:
         try:
             feed = feedparser.parse(url)
             for entry in feed.entries[:5]:  # Limit to the first 5 entries per feed
-                pic_url = "https://r.yna.co.kr/global/home/v01/img/yonhapnews_logo_600x600_ck01.jpg"  # 这里可以替换为你的默认图片 URL
-                # 尝试从 media_content 或 media_thumbnail 提取图片
+                pic_url = "https://r.yna.co.kr/global/home/v01/img/yonhapnews_logo_600x600_ck01.jpg"  # Default image URL
+                
+                # Try to extract picture from media_content or media_thumbnail
                 if 'media_content' in entry and len(entry.media_content) > 0:
                     pic_url = entry.media_content[0]['url']
                 elif 'media_thumbnail' in entry and len(entry.media_thumbnail) > 0:
                     pic_url = entry.media_thumbnail[0]['url']
-                # 如果 summary 中包含 <meta name="image" content="..." />
+                # If summary contains <meta name="image" content="..." />
                 elif 'summary' in entry:
-                    # 使用正则表达式提取图片链接
+                    # Use regular expression to extract the image link
                     match = re.search(r'<meta name="image" content="([^"]+)"', entry.summary)
                     if match:
                         pic_url = match.group(1)

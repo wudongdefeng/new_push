@@ -39,25 +39,19 @@ def fetch_rss_updates():
             
     return updates
 
-def _parse_description(entry):
-    """解析内容描述（支持多字段）"""
-    content_fields = ['summary', 'content', 'description']
-    for field in content_fields:
-        if content := entry.get(field):
-            if isinstance(content, list):  # 处理Atom格式
-                return _clean_html(content[0].get('value', ''))
-            return _clean_html(content)
-    return ""
-
 def _find_image_url(entry, base_url):
-    """四级图片识别策略"""
-    # 第一级：显式媒体声明
+    """四级图片识别策略（修复空列表访问问题）"""
+    # 安全访问列表的lambda生成器
+    def safe_get(source, index=0, default=None):
+        return lambda: source.get('_key', [{}])[index].get('subkey') if len(source.get('_key', [])) > index else default
+
+    # 第一级：显式媒体声明（增加空列表保护）
     media_sources = [
-        lambda: entry.get('media_content', [{}])[0].get('url'),
-        lambda: entry.get('media_thumbnail', [{}])[0].get('url'),
-        lambda: entry.get('enclosures', [{}])[0].get('url')
+        safe_get(entry, 'media_content', 0, 'url'),
+        safe_get(entry, 'media_thumbnail', 0, 'url'),
+        safe_get(entry, 'enclosures', 0, 'url')
     ]
-    
+
     # 第二级：元数据声明
     meta_source = lambda: _extract_meta_image(entry, base_url)
     
@@ -68,10 +62,20 @@ def _find_image_url(entry, base_url):
     all_sources = [*media_sources, meta_source, content_source]
     
     for source in all_sources:
-        if img_url := source():
+        if (img_url := source()) and img_url.strip():
             return _normalize_url(img_url, base_url)
             
     return DEFAULT_IMAGE
+
+def _parse_description(entry):
+    """解析内容描述（修复空content列表问题）"""
+    content_fields = ['summary', 'content', 'description']
+    for field in content_fields:
+        if (content := entry.get(field)) and isinstance(content, list) and len(content) > 0:
+            return _clean_html(content[0].get('value', ''))
+        elif content:
+            return _clean_html(content)
+    return ""
 
 def _extract_meta_image(entry, base_url):
     """提取<meta>声明图片"""

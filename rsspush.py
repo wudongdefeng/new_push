@@ -40,16 +40,20 @@ def fetch_rss_updates():
     return updates
 
 def _find_image_url(entry, base_url):
-    """四级图片识别策略（修复空列表访问问题）"""
-    # 安全访问列表的lambda生成器
-    def safe_get(source, index=0, default=None):
-        return lambda: source.get('_key', [{}])[index].get('subkey') if len(source.get('_key', [])) > index else default
+    """四级图片识别策略（2025年最新参数修复版）"""
+    # 修正版安全访问函数（接收4参数）
+    def safe_get(entry_dict, field_name, index=0, default=None):
+        """安全获取嵌套字段值"""
+        field_data = entry_dict.get(field_name, [{}])
+        if isinstance(field_data, list) and len(field_data) > index:
+            return field_data[index].get('url', default)
+        return default
 
-    # 第一级：显式媒体声明（增加空列表保护）
+    # 第一级：显式媒体声明（参数顺序修正）
     media_sources = [
-        safe_get(entry, 'media_content', 0, 'url'),
-        safe_get(entry, 'media_thumbnail', 0, 'url'),
-        safe_get(entry, 'enclosures', 0, 'url')
+        lambda: safe_get(entry, 'media_content', 0, None),
+        lambda: safe_get(entry, 'media_thumbnail', 0, None),
+        lambda: safe_get(entry, 'enclosures', 0, None)
     ]
 
     # 第二级：元数据声明
@@ -59,14 +63,12 @@ def _find_image_url(entry, base_url):
     content_source = lambda: _extract_first_image(entry, base_url)
     
     # 第四级：默认图片
-    all_sources = [*media_sources, meta_source, content_source]
-    
-    for source in all_sources:
+    for source in [*media_sources, meta_source, content_source]:
         if (img_url := source()) and img_url.strip():
             return _normalize_url(img_url, base_url)
-            
+    
     return DEFAULT_IMAGE
-
+    
 def _parse_description(entry):
     """解析内容描述（修复空content列表问题）"""
     content_fields = ['summary', 'content', 'description']

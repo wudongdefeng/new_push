@@ -153,7 +153,7 @@ def send_to_wecom(updates):
     
     # 获取访问令牌
     token_url = f"https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={corp_id}&corpsecret={agent_secret}"
-    token_res = requests.get(token_url).json()
+    token_res = requests.get(token_url, timeout=60).json()
     
     if 'access_token' not in token_res:
         print("获取Token失败:", token_res)
